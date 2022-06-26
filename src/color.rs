@@ -111,8 +111,8 @@ where
 }
 
 fn encode_rgb565_16bit(pixel: &RGBPixel) -> u16 {
-    (((pixel.0 & 0b11111) as u16) << 10)
-        | (((pixel.1 & 0b111111) as u16) << 4)
+    (((pixel.0 & 0b11111) as u16) << 11)
+        | (((pixel.1 & 0b111111) as u16) << 5)
         | (pixel.2 & 0b11111) as u16
 }
 
@@ -205,3 +205,14 @@ where
         }
     }
 }
+#[cfg(test)]
+mod test {
+    use super::*;
+    
+    #[test]
+    fn encode_rgb565_16bit_offsets() {
+        assert_eq!(0b1, encode_rgb565_16bit(0, 0, 1));
+        assert_eq!(0b100000, encode_rgb565_16bit(0, 1, 0));
+        assert_eq!(0b100000000000, encode_rgb565_16bit(1, 0, 0));
+    }
+};
